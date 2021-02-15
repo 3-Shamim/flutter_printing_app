@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:printing_app/screens/BlueToothPrintScreen.dart';
-import 'package:printing_app/screens/BluetoothScannerScreen.dart';
-import 'package:printing_app/screens/WifiPrintScreen.dart';
+import 'package:printing_app/screens/BluetoothPrintScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = "/";
@@ -80,42 +78,12 @@ class HomeScreen extends StatelessWidget {
                         child: Text('B-Print'),
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, BlueToothPrintScreen.routeName,
+                              context, BluetoothPrintScreen.routeName,
                               arguments: {
                                 "data": data,
                               });
                         },
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('B-Scanner'),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, BluetoothScannerScreen.routeName,
-                              arguments: {
-                                "data": data,
-                              });
-                        },
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('W-Print'),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, WifiPrintScreen.routeName,
-                              arguments: {
-                                "data": data,
-                              });
-                        },
-                      ),
+                      )
                     ],
                   ),
                 )
