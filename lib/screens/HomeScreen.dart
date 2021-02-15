@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:printing_app/screens/BlueToothPrintScreen.dart';
+import 'package:printing_app/screens/BluetoothScannerScreen.dart';
 import 'package:printing_app/screens/WifiPrintScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -71,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: Row(
+                  child: Column(
                     children: [
                       FlatButton(
                         color: Theme.of(context).primaryColor,
@@ -80,6 +81,21 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(
                               context, BlueToothPrintScreen.routeName,
+                              arguments: {
+                                "data": data,
+                              });
+                        },
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        child: Text('B-Scanner'),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, BluetoothScannerScreen.routeName,
                               arguments: {
                                 "data": data,
                               });
