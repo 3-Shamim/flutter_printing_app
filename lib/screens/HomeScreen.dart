@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:printing_app/screens/BlueToothPrintScreen.dart';
-import 'package:printing_app/screens/BluetoothScannerScreen.dart';
+import 'package:printing_app/screens/NetworkPrintScreen.dart';
 import 'package:printing_app/screens/WifiPrintScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -72,38 +71,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: Column(
+                  child: Row(
                     children: [
-                      FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('B-Print'),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, BlueToothPrintScreen.routeName,
-                              arguments: {
-                                "data": data,
-                              });
-                        },
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text('B-Scanner'),
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, BluetoothScannerScreen.routeName,
-                              arguments: {
-                                "data": data,
-                              });
-                        },
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
                       FlatButton(
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
@@ -111,6 +80,21 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(
                               context, WifiPrintScreen.routeName,
+                              arguments: {
+                                "data": data,
+                              });
+                        },
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        child: Text('N-Print'),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, NetworkPrintScreen.routeName,
                               arguments: {
                                 "data": data,
                               });
