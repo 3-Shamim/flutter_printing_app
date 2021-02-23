@@ -27,25 +27,30 @@ class _BluetoothPrintScreenState extends State<BluetoothPrintScreen> {
   void initState() {
     super.initState();
 
-    Map<String, dynamic> arguments =
-        ModalRoute.of(context).settings.arguments;
-    _printAbleData = arguments["data"];
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 
-    if (Platform.isAndroid) {
-      bluetoothManager.state.listen((val) {
-        print('state = $val');
-        if (!mounted) return;
-        if (val == 12) {
-          print('on');
-          initPrinter();
-        } else if (val == 10) {
-          print('off');
-          setState(() => _devicesMsg = 'Bluetooth Disconnect!');
-        }
-      });
-    } else {
-      initPrinter();
-    }
+      Map<String, dynamic> arguments =
+          ModalRoute.of(context).settings.arguments;
+      _printAbleData = arguments["data"];
+
+      if (Platform.isAndroid) {
+        bluetoothManager.state.listen((val) {
+          print('state = $val');
+          if (!mounted) return;
+          if (val == 12) {
+            print('on');
+            initPrinter();
+          } else if (val == 10) {
+            print('off');
+            setState(() => _devicesMsg = 'Bluetooth Disconnect!');
+          }
+        });
+      } else {
+        initPrinter();
+      }
+
+    });
+
   }
 
   @override
@@ -81,9 +86,44 @@ class _BluetoothPrintScreenState extends State<BluetoothPrintScreen> {
     });
   }
 
+  Future<Ticket> testTicket() async {
+    final Ticket ticket = Ticket(PaperSize.mm80);
+
+    ticket.text(
+        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
+    ticket.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
+        styles: PosStyles(codeTable: PosCodeTable.westEur));
+    ticket.text('Special 2: blåbærgrød',
+        styles: PosStyles(codeTable: PosCodeTable.westEur));
+
+    ticket.text('Bold text', styles: PosStyles(bold: true));
+    ticket.text('Reverse text', styles: PosStyles(reverse: true));
+    ticket.text('Underlined text',
+        styles: PosStyles(underline: true), linesAfter: 1);
+    ticket.text('Align left', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Align center', styles: PosStyles(align: PosAlign.center));
+    ticket.text('Align right',
+        styles: PosStyles(align: PosAlign.right), linesAfter: 1);
+
+    ticket.text('Text size 200%',
+        styles: PosStyles(
+          height: PosTextSize.size2,
+          width: PosTextSize.size2,
+        ));
+
+    ticket.feed(2);
+    ticket.cut();
+    return ticket;
+  }
+
   Future<void> _startPrint(PrinterBluetooth printer) async {
     _printerManager.selectPrinter(printer);
-    final result = await _printerManager.printTicket(await _ticket(PaperSize.mm80));
+
+    // var ticket = await _ticket(PaperSize.mm80);
+    var ticket = await testTicket();
+
+    print('===================> Start Printing');
+    final result = await _printerManager.printTicket(ticket);
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -97,12 +137,13 @@ class _BluetoothPrintScreenState extends State<BluetoothPrintScreen> {
     int total = 0;
 
     // Image assets
-    final ByteData data = await rootBundle.load('assets/store.png');
-    final Uint8List bytes = data.buffer.asUint8List();
-    final Image image = decodeImage(bytes);
-    ticket.image(image);
+    // final ByteData data = await rootBundle.load('assets/images/rabbit_black.jpg');
+    // final Uint8List bytes = data.buffer.asUint8List();
+    // final Image image = decodeImage(bytes);
+    // ticket.image(image);
+
     ticket.text(
-      'Header',
+      '4M Pharma LTD.',
       styles: PosStyles(align: PosAlign.center,height: PosTextSize.size2,width: PosTextSize.size2),
       linesAfter: 1,
     );
